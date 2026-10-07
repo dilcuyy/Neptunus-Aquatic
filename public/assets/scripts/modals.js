@@ -510,7 +510,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function renderKasirCartList() {
         const cartListContainer = document.getElementById("kasirCartList");
-        const itemCountBadge = document.getElementById("kasirCartItemCountBadge");
         const summaryTotalJenis = document.getElementById("kasirSummaryTotalJenis");
         const summaryTotalQty = document.getElementById("kasirSummaryTotalQty");
         const grandTotalText = document.getElementById("kasirGrandTotalText");
@@ -525,7 +524,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     <small class="text-muted fs-8">Pilih ikan dari katalog di sebelah kiri</small>
                 </div>
             `;
-            if (itemCountBadge) itemCountBadge.textContent = "0 Item";
             if (summaryTotalJenis) summaryTotalJenis.textContent = "0 Jenis";
             if (summaryTotalQty) summaryTotalQty.textContent = "0 Ekor";
             if (grandTotalText) grandTotalText.textContent = "Rp 0";
@@ -599,11 +597,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         cartListContainer.innerHTML = html;
 
-        if (itemCountBadge) {
-            itemCountBadge.innerHTML = kasirCart.length > 1 
-                ? `${kasirCart.length} Item <i class="pe-7s-angle-down ms-1 text-primary fs-7"></i>` 
-                : `${kasirCart.length} Item`;
-        }
         if (summaryTotalJenis) summaryTotalJenis.textContent = kasirCart.length + " Jenis";
         if (summaryTotalQty) summaryTotalQty.textContent = totalQtySum + " Ekor";
         if (grandTotalText) grandTotalText.textContent = "Rp " + grandTotalSum.toLocaleString('id-ID');
@@ -648,7 +641,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
         
-        clockEl.textContent = `${dayName}, ${dayNum} ${monthName} ${year} â€¢ ${hours}:${minutes}:${seconds} WIB`;
+        clockEl.textContent = `${dayName}, ${dayNum} ${monthName} ${year} - ${hours}:${minutes}:${seconds} WIB`;
     }
     setInterval(updateKasirLiveClock, 1000);
     updateKasirLiveClock();

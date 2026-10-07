@@ -90,7 +90,6 @@
                                     <h6 class="fw-bold text-dark mb-0 fs-7">Keranjang Order</h6>
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="badge bg-light text-primary border rounded-pill px-2 py-1" style="font-size: 0.6875rem; font-weight: 600;" id="kasirCartItemCountBadge">0 Item</span>
                                     <button type="button" class="btn btn-sm text-danger p-0 d-flex align-items-center justify-content-center" id="btnClearCart" title="Kosongkan Keranjang" style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid #fee2e2; background: #fef2f2;">
                                         <i class="pe-7s-trash fs-6"></i>
                                     </button>
