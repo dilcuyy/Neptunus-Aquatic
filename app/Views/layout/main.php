@@ -627,8 +627,15 @@
     <!-- Application Modals Script -->
     <script type="text/javascript" src="<?= base_url('assets/scripts/modals.js') ?>"></script>
 
-    <!-- Global Modals (Profile, Settings, Calendar Notes) -->
-    <?= $this->include('layout/global_modals') ?>
+    <!-- Modals & Notifications -->
+    <?= $this->include('layout/modals/toast_container') ?>
+    <?= $this->include('layout/modals/modal_profil') ?>
+    <?= $this->include('layout/modals/modal_pengaturan') ?>
+    <?= $this->include('layout/modals/modal_backup') ?>
+    <?= $this->include('layout/modals/modal_kalender') ?>
+    <?= $this->include('layout/modals/modal_notifikasi_stok') ?>
+    <?= $this->include('layout/modals/modal_kasir') ?>
+    <?= $this->include('layout/modals/modal_konfirmasi_hapus') ?>
 
     <!-- Modals Section rendered at root body level -->
     <?= $this->renderSection('modals') ?>

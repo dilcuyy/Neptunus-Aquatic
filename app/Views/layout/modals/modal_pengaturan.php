@@ -1,3 +1,9 @@
+<?php
+$modPengaturanModel = new \App\Models\PengaturanModel();
+$modNamaToko = $modPengaturanModel->getSetting('nama_toko', 'Neptunus Aquatic');
+$modSubTitle = $modPengaturanModel->getSetting('sub_title', 'Manager Operasional');
+$modStokKritis = $modPengaturanModel->getSetting('stok_kritis', '5');
+?>
 <!-- Modal Pengaturan Aplikasi -->
 <div class="modal fade" id="modalPengaturan" tabindex="-1" aria-labelledby="modalPengaturanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-modern">

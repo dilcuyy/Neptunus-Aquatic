@@ -1,3 +1,12 @@
+<?php
+$modAkunModel = new \App\Models\AkunModel();
+$modUser = $modAkunModel->find(1);
+$modFoto = $modUser['foto'] ?? '1.jpg';
+$modFotoUrl = base_url('assets/images/avatars/' . $modFoto);
+if (!empty($modFoto) && file_exists(FCPATH . 'uploads/profile/' . $modFoto)) {
+    $modFotoUrl = base_url('uploads/profile/' . $modFoto);
+}
+?>
 <!-- Modal Edit Profil Administrator -->
 <div class="modal fade" id="modalProfil" tabindex="-1" aria-labelledby="modalProfilLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-modern">

@@ -10,14 +10,25 @@
 @media print {
     @page {
         size: A4 portrait;
-        margin: 12mm 15mm;
+        margin: 10mm 12mm;
     }
-    html, body, .app-container, .app-main, .app-main__outer, .app-main__inner {
+    html, body,
+    body.closed-sidebar.fixed-sidebar .app-main .app-main__outer,
+    .closed-sidebar.fixed-sidebar .app-main .app-main__outer,
+    .fixed-sidebar .app-main .app-main__outer,
+    .app-main .app-main__outer,
+    .app-main__outer,
+    .app-main__inner,
+    .app-container,
+    .app-main {
         background: #ffffff !important;
         margin: 0 !important;
         padding: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
         box-shadow: none !important;
         width: 100% !important;
+        max-width: 100% !important;
     }
     .app-header, .app-sidebar, .app-page-title, .app-wrapper-footer, .no-print {
         display: none !important;
@@ -29,18 +40,23 @@
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
-        margin: 0 !important;
+        margin: 0 auto !important;
         background: transparent !important;
+        width: 100% !important;
     }
     .print-table {
         width: 100% !important;
+        table-layout: fixed !important;
         border-collapse: collapse !important;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
     }
     .print-table th, .print-table td {
-        padding: 6px 8px !important;
-        font-size: 11px !important;
+        padding: 4px 6px !important;
+        font-size: 9.5px !important;
+        line-height: 1.25 !important;
         border: 1px solid #cbd5e1 !important;
         vertical-align: middle !important;
+        box-sizing: border-box !important;
     }
     .print-table thead {
         display: table-header-group;
@@ -52,18 +68,31 @@
     .print-table thead th {
         font-weight: 700 !important;
         border-bottom: 2px solid #94a3b8 !important;
+        font-size: 9.5px !important;
+        white-space: nowrap !important;
     }
     .print-table tr {
         page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    .print-table td.nowrap {
+        white-space: nowrap !important;
+    }
+    .print-table td.cell-truncate {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
     .print-badge-in {
         color: #15803d !important;
         font-weight: 700 !important;
         background-color: #f0fdf4 !important;
         border: 1px solid #bbf7d0 !important;
-        padding: 2px 6px !important;
-        border-radius: 4px;
-        font-size: 10px !important;
+        padding: 1px 5px !important;
+        border-radius: 3px;
+        font-size: 8.5px !important;
+        white-space: nowrap !important;
+        display: inline-block !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
@@ -72,9 +101,11 @@
         font-weight: 700 !important;
         background-color: #fef2f2 !important;
         border: 1px solid #fecaca !important;
-        padding: 2px 6px !important;
-        border-radius: 4px;
-        font-size: 10px !important;
+        padding: 1px 5px !important;
+        border-radius: 3px;
+        font-size: 8.5px !important;
+        white-space: nowrap !important;
+        display: inline-block !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
@@ -86,6 +117,7 @@
     }
     .signature-block {
         page-break-inside: avoid;
+        break-inside: avoid;
     }
 }
 </style>
@@ -198,14 +230,14 @@
     <table class="table table-bordered align-middle print-table print-only-table">
         <thead class="table-dark">
             <tr>
-                <th class="text-center" style="width: 45px;">ID</th>
-                <th class="text-center" style="width: 120px;">Tanggal</th>
+                <th class="text-center" style="width: 38px;">ID</th>
+                <th class="text-center" style="width: 105px;">Tanggal</th>
                 <th>Nama Jenis Ikan</th>
-                <th class="text-center" style="width: 100px;">Tipe Mutasi</th>
-                <th class="text-end" style="width: 90px;">Jumlah</th>
-                <th class="text-end" style="width: 110px;">Harga Satuan</th>
+                <th class="text-center" style="width: 88px;">Tipe Mutasi</th>
+                <th class="text-end" style="width: 65px;">Jumlah</th>
+                <th class="text-end" style="width: 88px;">Harga Satuan</th>
                 <th>Keterangan</th>
-                <th class="text-center" style="width: 100px;">Petugas</th>
+                <th class="text-center" style="width: 85px;">Petugas</th>
             </tr>
         </thead>
         <tbody>
@@ -216,20 +248,20 @@
             <?php else: ?>
             <?php foreach ($reports as $r): ?>
             <tr>
-                <td class="text-center text-muted">#<?= $r['id_riwayat'] ?></td>
-                <td class="text-center"><?= date('d-m-Y H:i', strtotime($r['tanggal'])) ?></td>
-                <td class="fw-bold text-dark"><?= esc($r['nama_ikan'] ?? 'Ikan #' . $r['id_ikan']) ?></td>
-                <td class="text-center">
+                <td class="text-center text-muted nowrap">#<?= $r['id_riwayat'] ?></td>
+                <td class="text-center nowrap"><?= date('d-m-Y H:i', strtotime($r['tanggal'])) ?></td>
+                <td class="fw-bold text-dark cell-truncate"><?= esc($r['nama_ikan'] ?? 'Ikan #' . $r['id_ikan']) ?></td>
+                <td class="text-center nowrap">
                     <?php if ($r['jenis'] == 'Masuk'): ?>
                         <span class="print-badge-in">IN (MASUK)</span>
                     <?php else: ?>
                         <span class="print-badge-out">OUT (KELUAR)</span>
                     <?php endif; ?>
                 </td>
-                <td class="text-end fw-bold"><?= number_format($r['jumlah']) ?> Ekor</td>
-                <td class="text-end">Rp <?= number_format($r['harga_satuan'], 0, ',', '.') ?></td>
-                <td><?= esc($r['keterangan'] ?? '-') ?></td>
-                <td class="text-center text-muted"><?= esc($r['nama_petugas'] ?? 'System') ?></td>
+                <td class="text-end fw-bold nowrap"><?= number_format($r['jumlah']) ?> Ekor</td>
+                <td class="text-end nowrap">Rp <?= number_format($r['harga_satuan'], 0, ',', '.') ?></td>
+                <td class="cell-truncate"><?= esc($r['keterangan'] ?? '-') ?></td>
+                <td class="text-center text-muted nowrap"><?= esc($r['nama_petugas'] ?? 'System') ?></td>
             </tr>
             <?php endforeach; ?>
             <?php endif; ?>
