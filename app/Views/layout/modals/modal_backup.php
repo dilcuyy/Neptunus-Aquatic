@@ -18,9 +18,9 @@
             </div>
             <form action="<?= base_url('backup/export') ?>" method="get" target="_blank" id="formBackupData">
                 <div class="modal-body-modern">
-                    <div class="px-2.5 py-2 rounded-2 border d-flex align-items-center mb-2.5" style="background: #f0f9ff; border-color: #bae6fd !important; gap: 8px;">
-                        <i class="pe-7s-info text-primary flex-shrink-0" style="font-size: 1.1rem;"></i>
-                        <div style="font-size: 0.7813rem; color: #0369a1; line-height: 1.35;">
+                    <div class="modal-alert-info">
+                        <i class="pe-7s-info modal-alert-icon"></i>
+                        <div class="modal-alert-text">
                             Pilih kategori data, filter rentang tanggal, dan format arsip.
                         </div>
                     </div>

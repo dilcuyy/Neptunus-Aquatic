@@ -395,6 +395,22 @@
 
 /* modals.css - Extracted Styles for Application Modals */
 
+.cal-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+.cal-note-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e2e8f0 !important;
+    margin-top: 16px;
+    padding-top: 14px;
+}
+
 @keyframes kasirFloatBounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(5px); }
@@ -434,10 +450,17 @@
     background-color: #eff6ff !important;
     box-shadow: inset 0 0 0 2px #3f6ad8 !important;
 }
+.calendar-day-header {
+    height: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
 .day-number-text {
     font-size: 12px;
     font-weight: 600;
     color: #334155;
+    line-height: 20px;
 }
 .calendar-day-cell.today-day .day-number-text {
     background-color: #3f6ad8;
@@ -448,14 +471,18 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    line-height: 1;
 }
 .cal-event-pill {
     background-color: #3f6ad8;
     color: #ffffff;
     font-size: 9.5px;
-    padding: 1px 4px;
+    padding: 2px 5px;
     border-radius: 3px;
-    margin-top: 2px;
+    margin-top: 3px;
+    height: 18px;
+    line-height: 14px;
+    box-sizing: border-box;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -526,6 +553,32 @@ tr.empty-cart-row:hover > th,
 .kasir-suggestion-item:hover {
     background-color: #f0f3ff !important;
 }
+.modal-alert-info {
+    display: flex;
+    align-items: center;
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 10px 14px;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.modal-alert-info .modal-alert-icon {
+    font-size: 1.25rem;
+    color: #0284c7;
+    flex-shrink: 0;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-alert-info .modal-alert-text {
+    font-size: 0.8125rem;
+    color: #0369a1;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
 #modalBackup input:focus,
 #modalBackup select:focus,
 #modalBackup button:focus,

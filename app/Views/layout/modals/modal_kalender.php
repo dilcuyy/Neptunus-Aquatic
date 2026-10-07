@@ -20,7 +20,7 @@
                 <div class="row g-3">
                     <!-- Left Column: Calendar Grid (Continuous FullCalendar Style) -->
                     <div class="col-md-7 border-end pe-md-3">
-                        <div class="d-flex justify-content-between align-items-center mb-2.5 px-1">
+                        <div class="cal-nav-header">
                             <button type="button" class="modal-btn-secondary py-1 px-2" id="calPrevMonth"><i class="pe-7s-angle-left"></i></button>
                             <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.875rem;" id="calMonthYearTitle">September 2026</h6>
                             <button type="button" class="modal-btn-secondary py-1 px-2" id="calNextMonth"><i class="pe-7s-angle-right"></i></button>
@@ -59,7 +59,7 @@
                             </div>
                         </div>
 
-                        <div class="pt-2.5 d-flex justify-content-between align-items-center border-top mt-2" style="border-color: #e2e8f0 !important;">
+                        <div class="cal-note-footer">
                             <button type="button" class="modal-btn-danger py-1 px-2.5" id="btnDeleteCalNote">
                                 <i class="pe-7s-trash"></i>
                                 <span>Hapus</span>

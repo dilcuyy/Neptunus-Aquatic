@@ -1122,7 +1122,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 trHtml += `
                     <td class="${cellClass}" data-date="${cell.key}">
-                        <div class="d-flex justify-content-end align-items-center">
+                        <div class="calendar-day-header">
                             <span class="day-number-text">${cell.num}</span>
                         </div>
                         ${eventPill}
