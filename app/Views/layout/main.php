@@ -361,18 +361,20 @@
             transition: width 0.2s ease, flex 0.2s ease, min-width 0.2s ease !important;
             box-sizing: border-box !important;
         }
-        .fixed-sidebar .app-main .app-main__outer {
-            padding-left: 260px !important;
-            transition: padding-left 0.2s ease !important;
-        }
-        .closed-sidebar .app-sidebar,
-        .closed-sidebar .app-sidebar:hover {
-            width: 80px !important;
-            min-width: 80px !important;
-            flex: 0 0 80px !important;
-        }
-        .closed-sidebar.fixed-sidebar .app-main .app-main__outer {
-            padding-left: 80px !important;
+        @media screen {
+            .fixed-sidebar .app-main .app-main__outer {
+                padding-left: 260px !important;
+                transition: padding-left 0.2s ease !important;
+            }
+            .closed-sidebar .app-sidebar,
+            .closed-sidebar .app-sidebar:hover {
+                width: 80px !important;
+                min-width: 80px !important;
+                flex: 0 0 80px !important;
+            }
+            .closed-sidebar.fixed-sidebar .app-main .app-main__outer {
+                padding-left: 80px !important;
+            }
         }
         .app-sidebar .scrollbar-sidebar {
             padding: 0.75rem 0 !important;
