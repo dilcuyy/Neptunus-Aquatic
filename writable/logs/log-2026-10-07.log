@@ -1,0 +1,23 @@
+CRITICAL - 2026-10-07 07:33:29 --> ErrorException: Undefined variable $modFotoUrl
+[Method: GET, Route: /]
+in APPPATH\Views\layout\modals\modal_profil.php on line 23.
+ 1 APPPATH\Views\layout\modals\modal_profil.php(23): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $modFotoUrl', 'C:\\xampp\\htdocs\\Neptunus-Aquatic\\app\\Views\\layout\\modals\\modal_profil.php', 23)
+ 2 SYSTEMPATH\View\View.php(240): include('C:\\xampp\\htdocs\\Neptunus-Aquatic\\app\\Views\\layout\\modals\\modal_profil.php')
+ 3 SYSTEMPATH\View\View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\View\View.php(489): CodeIgniter\View\View->render('layout/modals/modal_profil', null, true)
+ 5 APPPATH\Views\layout\global_modals.php(24): CodeIgniter\View\View->include('layout/modals/modal_profil')
+ 6 SYSTEMPATH\View\View.php(240): include('C:\\xampp\\htdocs\\Neptunus-Aquatic\\app\\Views\\layout\\global_modals.php')
+ 7 SYSTEMPATH\View\View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 8 SYSTEMPATH\View\View.php(489): CodeIgniter\View\View->render('layout/global_modals', null, true)
+ 9 APPPATH\Views\layout\main.php(631): CodeIgniter\View\View->include('layout/global_modals')
+10 SYSTEMPATH\View\View.php(240): include('C:\\xampp\\htdocs\\Neptunus-Aquatic\\app\\Views\\layout\\main.php')
+11 SYSTEMPATH\View\View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+12 SYSTEMPATH\View\View.php(256): CodeIgniter\View\View->render('layout/main', [], true)
+13 SYSTEMPATH\Common.php(1254): CodeIgniter\View\View->render('dashboard/index', [], true)
+14 APPPATH\Controllers\Dashboard.php(136): view('dashboard/index', [...])
+15 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Dashboard->index()
+16 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+17 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+18 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+19 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+20 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
