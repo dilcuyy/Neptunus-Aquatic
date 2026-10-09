@@ -22,11 +22,11 @@ class Dashboard extends BaseController
         $builderOut = $db->table('riwayat_stok')->selectSum('jumlah')->where('jenis', 'Keluar')->get()->getRow();
         $ikanKeluar = $builderOut->jumlah ?? 0;
 
-        // 2. Chart Data: Stok per Kategori Ikan
+        // 2. Chart Data: Stok per Kategori
         $kategoriQuery = $db->query("
             SELECT COALESCE(k.nama_kategori, 'Lainnya') as kategori, SUM(i.stok) as total_stok
             FROM ikan i
-            LEFT JOIN kategori_ikan k ON k.id_kategori = i.id_kategori
+            LEFT JOIN kategori k ON k.id_kategori = i.id_kategori
             GROUP BY i.id_kategori
             ORDER BY total_stok DESC
         ")->getResultArray();

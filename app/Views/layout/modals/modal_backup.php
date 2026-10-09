@@ -30,12 +30,12 @@
                         <div class="col-12">
                             <label class="modal-label mb-1" for="backupTargetSelect">Kategori Data Backup <span class="text-danger">*</span></label>
                             <select class="form-select modal-input py-1.5" name="target" id="backupTargetSelect" required>
-                                <option value="semua">Semua Data (Stok Ikan + Laporan Mutasi)</option>
-                                <option value="stok">Data Stok Ikan Hias (Master Inventaris)</option>
+                                <option value="semua">Semua Data (Data Stok + Laporan Mutasi)</option>
+                                                                <option value="stok">Data Stok (Master Inventaris)</option>
                                 <option value="laporan">Data Laporan Mutasi Stok (IN / OUT)</option>
                             </select>
                             <div class="text-muted mt-1" id="stokNoteText" style="display: none; font-size: 0.7188rem; line-height: 1.3;">
-                                <i class="pe-7s-info me-1 text-primary"></i> Data Stok Ikan merupakan master inventaris ikan saat ini.
+                                <i class="pe-7s-info me-1 text-primary"></i> Data Stok merupakan master inventaris saat ini.
                             </div>
                         </div>
 

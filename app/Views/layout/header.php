@@ -45,7 +45,7 @@ if (!empty($userFoto) && file_exists(FCPATH . 'uploads/profile/' . $userFoto)) {
         <div class="app-header-left">
             <div class="search-wrapper header-search-box position-relative">
                 <i class="fa fa-search search-prefix-icon"></i>
-                <input type="text" id="headerSearchInput" class="form-control" placeholder="Cari ikan/laporan..." autocomplete="off">
+                <input type="text" id="headerSearchInput" class="form-control" placeholder="Cari stok/laporan..." autocomplete="off" maxlength="50">
                 <button class="btn-close d-none"></button>
                 
                 <!-- Live Search Dropdown Box -->
@@ -62,7 +62,7 @@ if (!empty($userFoto) && file_exists(FCPATH . 'uploads/profile/' . $userFoto)) {
                 <li class="nav-item">
                     <a href="<?= base_url('stok-ikan') ?>" class="nav-link">
                         <i class="pe-7s-box2"></i>
-                        <span>Stok Ikan</span>
+                        <span>Data Stok</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -288,10 +288,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let html = '';
 
-        // Section 1: Data Stok Ikan (Top 3)
+        // Section 1: Data Stok (Top 3)
         html += `
             <div class="bg-light px-3 py-2 fw-bold text-uppercase fs-7 text-primary border-bottom d-flex justify-content-between align-items-center">
-                <span>Rekomendasi Stok Ikan (${stokItems.length} Item)</span>
+                <span>Rekomendasi Stok (${stokItems.length} Item)</span>
             </div>
         `;
 
@@ -301,13 +301,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     <a href="${item.url}" class="search-result-item d-block px-3 py-2 text-dark text-decoration-none border-bottom">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="fw-bold text-truncate me-2" style="max-width: 240px;">
-                                ${item.nama_ikan}
+                                ${item.nama_item || item.nama_ikan}
                             </div>
                             <span class="text-secondary fs-8 fw-bold text-uppercase">${item.nama_kategori}</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-1 fs-8 text-muted">
                             <span>Harga: <strong class="text-success">${item.harga_formatted}</strong></span>
-                            <span>Stok: <strong class="text-primary">${item.stok} Ekor</strong></span>
+                            <span>Stok: <strong class="text-primary">${item.stok} ${item.satuan || 'Ekor'}</strong></span>
                         </div>
                     </a>
                 `;
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             html += `
                 <div class="px-3 py-2 text-muted fs-8 fst-italic border-bottom">
-                    Tidak ada data stok ikan yang cocok.
+                    Tidak ada data stok yang cocok.
                 </div>
             `;
         }
@@ -334,13 +334,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     <a href="${item.url}" class="search-result-item d-block px-3 py-2 text-dark text-decoration-none border-bottom">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="fw-bold text-truncate me-2" style="max-width: 240px;">
-                                ${item.nama_ikan}
+                                ${item.nama_item || item.nama_ikan}
                             </div>
                             <span class="${textClass} fs-8 fw-bold text-uppercase">${item.jenis}</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-1 fs-8 text-muted">
                             <span>Tgl: ${item.tanggal}</span>
-                            <span>Jumlah: <strong class="text-dark">${item.jumlah} Ekor</strong></span>
+                            <span>Jumlah: <strong class="text-dark">${item.jumlah} ${item.satuan || 'Ekor'}</strong></span>
                         </div>
                     </a>
                 `;

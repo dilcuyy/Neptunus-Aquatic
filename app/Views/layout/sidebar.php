@@ -34,7 +34,7 @@
                 <li>
                     <a href="<?= base_url('stok-ikan') ?>" class="<?= ($activeMenu == 'stok_ikan') ? 'mm-active' : '' ?>">
                         <i class="metismenu-icon pe-7s-box2"></i>
-                        <span>Stok Ikan</span>
+                        <span>Data Stok</span>
                     </a>
                 </li>
                 <li class="app-sidebar__heading mt-2">Laporan & Rekap</li>

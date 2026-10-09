@@ -10,9 +10,10 @@ class Laporan extends BaseController
     {
         $riwayatModel = new RiwayatStokModel();
 
-        $tglAwal  = $this->request->getGet('tgl_awal');
-        $tglAkhir = $this->request->getGet('tgl_akhir');
-        $jenis    = $this->request->getGet('jenis');
+        $tglAwal  = substr(trim($this->request->getGet('tgl_awal') ?? ''), 0, 10);
+        $tglAkhir = substr(trim($this->request->getGet('tgl_akhir') ?? ''), 0, 10);
+        $jenis    = substr(trim($this->request->getGet('jenis') ?? ''), 0, 10);
+        if ($jenis !== 'Masuk' && $jenis !== 'Keluar') $jenis = '';
 
         $reports = $riwayatModel->getRiwayatPaginated(10, $tglAwal, $tglAkhir, $jenis);
 
@@ -35,8 +36,8 @@ class Laporan extends BaseController
     {
         $riwayatModel = new RiwayatStokModel();
 
-        $tglAwal  = $this->request->getGet('tgl_awal');
-        $tglAkhir = $this->request->getGet('tgl_akhir');
+        $tglAwal  = substr(trim($this->request->getGet('tgl_awal') ?? ''), 0, 10);
+        $tglAkhir = substr(trim($this->request->getGet('tgl_akhir') ?? ''), 0, 10);
 
         $reports = $riwayatModel->getRiwayatWithDetails(null, $tglAwal, $tglAkhir);
 
@@ -63,7 +64,8 @@ class Laporan extends BaseController
                 'total_out' => $totalOut,
                 'netto'     => $totalIn - $totalOut,
             ],
-            'reports'      => $reports
+            'reports'      => $reports,
+            'penanggung_jawab' => (new \App\Models\AkunModel())->find(1)['nama_lengkap'] ?? 'Admin Toko Ikan',
         ];
 
         return view('laporan/cetak', $data);

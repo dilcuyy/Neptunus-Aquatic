@@ -14,8 +14,8 @@ class IkanModel extends Model
     public function getIkanWithKategori($id = null)
     {
         $builder = $this->db->table($this->table);
-        $builder->select('ikan.*, kategori_ikan.nama_kategori, kategori_ikan.sifat, kategori_ikan.tingkat_perawatan');
-        $builder->join('kategori_ikan', 'kategori_ikan.id_kategori = ikan.id_kategori', 'left');
+        $builder->select('ikan.*, kategori.nama_kategori, kategori.satuan');
+        $builder->join('kategori', 'kategori.id_kategori = ikan.id_kategori', 'left');
 
         if ($id !== null) {
             $builder->where('ikan.id_ikan', $id);

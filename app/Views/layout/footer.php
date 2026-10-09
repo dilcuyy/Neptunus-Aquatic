@@ -19,7 +19,7 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <a href="javascript:void(0);" class="nav-link">
-                            Sistem Manajemen Stok Ikan
+                            Sistem Manajemen Stok
                         </a>
                     </li>
                 </ul>

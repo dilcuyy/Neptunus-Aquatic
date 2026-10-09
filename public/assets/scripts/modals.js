@@ -1,5 +1,27 @@
 ﻿let confirmActionCallback = null;
 
+// ponytail: manual dot grouping, upgrade to currency-input lib if locales grow
+function formatRupiahDots(v) {
+    const d = String(v ?? '').replace(/\D/g, '').slice(0, 9);
+    return d.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+function parseRupiahDots(v) {
+    const d = String(v ?? '').replace(/\D/g, '').slice(0, 9);
+    return d === '' ? 0 : parseInt(d, 10);
+}
+document.addEventListener('input', function (e) {
+    const el = e.target.closest ? e.target.closest('.rupiah-input, .input-cart-harga') : null;
+    if (!el || el.readOnly) return;
+    const f = formatRupiahDots(el.value);
+    if (el.value !== f) el.value = f;
+});
+document.addEventListener('submit', function (e) {
+    if (!e.target || !e.target.querySelectorAll) return;
+    e.target.querySelectorAll('.rupiah-input').forEach(function (el) {
+        el.value = String(el.value ?? '').replace(/\D/g, '').slice(0, 9);
+    });
+});
+
 function showToast(type, title, message) {
     const container = document.getElementById("toastContainer");
     if (!container) return;
@@ -285,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (footerCount) {
-            footerCount.textContent = `${lowStockItems.length} item kritis (â‰¤ ${limitKritis} ekor)`;
+            footerCount.textContent = `${lowStockItems.length} item kritis (≤ ${limitKritis})`;
         }
 
         if (!container) return;
@@ -486,7 +508,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (existingIndex !== -1) {
             const newQty = kasirCart[existingIndex].jumlah + 1;
             if (jenis === 'Keluar' && newQty > fish.stok) {
-                showToast("warning", "Stok Melebihi Batas", `Jumlah di keranjang (${newQty} ekor) melebihi stok yang ada (${fish.stok} ekor).`);
+                showToast("warning", "Stok Melebihi Batas", `Jumlah di keranjang (${newQty} ${fish.satuan || 'Ekor'}) melebihi stok yang ada (${fish.stok} ${fish.satuan || 'Ekor'}).`);
                 return;
             }
             kasirCart[existingIndex].jumlah = newQty;
@@ -495,6 +517,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 id_ikan: fish.id_ikan,
                 nama_ikan: fish.nama_ikan,
                 nama_kategori: fish.nama_kategori,
+                satuan: fish.satuan || 'Ekor',
                 jenis: jenis,
                 jumlah: 1,
                 harga_satuan: hargaSatuan,
@@ -525,7 +548,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
             if (summaryTotalJenis) summaryTotalJenis.textContent = "0 Jenis";
-            if (summaryTotalQty) summaryTotalQty.textContent = "0 Ekor";
+            if (summaryTotalQty) summaryTotalQty.textContent = "0 Item";
             if (grandTotalText) grandTotalText.textContent = "Rp 0";
             return;
         }
@@ -571,7 +594,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="col-5">
                             <div class="kasir-qty-stepper">
                                 <button class="kasir-qty-btn btn-cart-qty-minus" type="button" data-index="${index}"><i class="pe-7s-less"></i></button>
-                                <input type="number" class="kasir-qty-input input-cart-qty" data-index="${index}" value="${item.jumlah}" min="1">
+                                <input type="number" class="kasir-qty-input input-cart-qty" data-index="${index}" value="${item.jumlah}" min="1" max="999999">
                                 <button class="kasir-qty-btn btn-cart-qty-plus" type="button" data-index="${index}"><i class="pe-7s-plus"></i></button>
                             </div>
                         </div>
@@ -579,14 +602,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="col-7">
                             <div class="kasir-price-input-group">
                                 <span class="kasir-price-prefix">Rp</span>
-                                <input type="number" class="kasir-price-input input-cart-harga" data-index="${index}" value="${item.harga_satuan}" placeholder="0">
+                                <input type="text" inputmode="numeric" class="kasir-price-input input-cart-harga" data-index="${index}" value="${formatRupiahDots(item.harga_satuan)}" placeholder="0" maxlength="11" autocomplete="off">
                             </div>
                         </div>
                     </div>
 
                     <!-- Bottom Row: Note & Subtotal -->
                     <div class="pt-2 border-top d-flex align-items-center justify-content-between gap-2" style="border-color: #f1f5f9 !important;">
-                        <input type="text" class="form-control form-control-sm border-0 bg-light text-dark input-cart-keterangan" data-index="${index}" placeholder="+ Catatan (opsional)" value="${item.keterangan ? item.keterangan : ''}" style="font-size: 0.6875rem; height: 26px; border-radius: 6px; padding: 2px 8px;">
+                        <input type="text" class="form-control form-control-sm border-0 bg-light text-dark input-cart-keterangan" data-index="${index}" placeholder="+ Catatan (opsional)" maxlength="20" value="${item.keterangan ? item.keterangan : ''}" style="font-size: 0.6875rem; height: 26px; border-radius: 6px; padding: 2px 8px;">
                         <div class="text-end flex-shrink-0">
                             <span class="fw-bold text-success" style="font-size: 0.8125rem;">Rp ${subtotal.toLocaleString('id-ID')}</span>
                         </div>
@@ -598,7 +621,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cartListContainer.innerHTML = html;
 
         if (summaryTotalJenis) summaryTotalJenis.textContent = kasirCart.length + " Jenis";
-        if (summaryTotalQty) summaryTotalQty.textContent = totalQtySum + " Ekor";
+        if (summaryTotalQty) summaryTotalQty.textContent = totalQtySum + " Item";
         if (grandTotalText) grandTotalText.textContent = "Rp " + grandTotalSum.toLocaleString('id-ID');
 
         setTimeout(checkKasirCartScroll, 50);
@@ -655,7 +678,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const hargaInput = document.getElementById("kasirManualHarga");
             if (fish && hargaInput) {
                 const jenis = document.querySelector('input[name="kasirJenis"]:checked') ? document.querySelector('input[name="kasirJenis"]:checked').value : 'Keluar';
-                hargaInput.value = (jenis === 'Masuk') ? fish.harga_beli : fish.harga_jual;
+                hargaInput.value = formatRupiahDots((jenis === 'Masuk') ? fish.harga_beli : fish.harga_jual);
             }
         });
     }
@@ -674,20 +697,23 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!fish) return;
 
             const jenis = document.querySelector('input[name="kasirJenis"]:checked') ? document.querySelector('input[name="kasirJenis"]:checked').value : 'Keluar';
-            const jumlah = parseInt(document.getElementById("kasirManualJumlah").value) || 1;
-            let hargaSatuan = parseFloat(document.getElementById("kasirManualHarga").value);
+            let jumlah = parseInt(document.getElementById("kasirManualJumlah").value) || 1;
+            if (jumlah < 1) jumlah = 1;
+            if (jumlah > 999999) jumlah = 999999;
+            let hargaSatuan = parseRupiahDots(document.getElementById("kasirManualHarga").value);
+            if (hargaSatuan > 999999999) hargaSatuan = 999999999;
             if (isNaN(hargaSatuan) || hargaSatuan <= 0) {
                 hargaSatuan = (jenis === 'Masuk') ? fish.harga_beli : fish.harga_jual;
             }
-            const keterangan = document.getElementById("kasirManualKeterangan").value.trim();
+            const keterangan = document.getElementById("kasirManualKeterangan").value.trim().substring(0, 20);
 
             if (jumlah <= 0) {
-                showToast("danger", "Jumlah Tidak Valid", "Jumlah ekor harus lebih dari 0.");
+                showToast("danger", "Jumlah Tidak Valid", `Jumlah ${(fish.satuan || 'Ekor').toLowerCase()} harus lebih dari 0.`);
                 return;
             }
 
             if (jenis === 'Keluar' && jumlah > fish.stok) {
-                showToast("danger", "Stok Tidak Cukup", `Stok ${fish.nama_ikan} saat ini hanya ${fish.stok} ekor.`);
+                showToast("danger", "Stok Tidak Cukup", `Stok ${fish.nama_ikan} saat ini hanya ${fish.stok} ${fish.satuan || 'Ekor'}.`);
                 return;
             }
 
@@ -695,7 +721,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (existingIndex !== -1) {
                 const newQty = kasirCart[existingIndex].jumlah + jumlah;
                 if (jenis === 'Keluar' && newQty > fish.stok) {
-                    showToast("warning", "Stok Melebihi Batas", `Jumlah total (${newQty} ekor) melebihi stok yang ada (${fish.stok} ekor).`);
+                    showToast("warning", "Stok Melebihi Batas", `Jumlah total (${newQty} ${fish.satuan || 'Ekor'}) melebihi stok yang ada (${fish.stok} ${fish.satuan || 'Ekor'}).`);
                     return;
                 }
                 kasirCart[existingIndex].jumlah = newQty;
@@ -706,6 +732,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     id_ikan: fish.id_ikan,
                     nama_ikan: fish.nama_ikan,
                     nama_kategori: fish.nama_kategori,
+                    satuan: fish.satuan || 'Ekor',
                     jenis: jenis,
                     jumlah: jumlah,
                     harga_satuan: hargaSatuan,
@@ -716,7 +743,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             renderKasirCartList();
-            showToast("success", "Ditambahkan", `${fish.nama_ikan} (${jumlah} ekor) masuk ke keranjang.`);
+            showToast("success", "Ditambahkan", `${fish.nama_ikan} (${jumlah} ${fish.satuan || 'Ekor'}) masuk ke keranjang.`);
 
             // Reset manual form fields
             document.getElementById("kasirManualSelectIkan").value = "";
@@ -799,7 +826,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const idx = parseInt(btnPlus.getAttribute("data-index"));
                 if (kasirCart[idx]) {
                     if (kasirCart[idx].jenis === 'Keluar' && kasirCart[idx].jumlah >= kasirCart[idx].max_stok) {
-                        showToast("warning", "Stok Maksimal", `Stok ${kasirCart[idx].nama_ikan} hanya ${kasirCart[idx].max_stok} ekor.`);
+                        showToast("warning", "Stok Maksimal", `Stok ${kasirCart[idx].nama_ikan} hanya ${kasirCart[idx].max_stok} ${kasirCart[idx].satuan || 'Item'}.`);
                         return;
                     }
                     kasirCart[idx].jumlah++;
@@ -825,8 +852,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const inputHarga = e.target.closest(".input-cart-harga");
             if (inputHarga) {
                 const idx = parseInt(inputHarga.getAttribute("data-index"));
-                let val = parseFloat(inputHarga.value);
-                if (isNaN(val) || val < 0) val = 0;
+                let val = parseRupiahDots(inputHarga.value);
+                if (val > 999999999) val = 999999999;
 
                 if (kasirCart[idx]) {
                     kasirCart[idx].harga_satuan = val;
@@ -840,10 +867,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 const idx = parseInt(inputQty.getAttribute("data-index"));
                 let val = parseInt(inputQty.value) || 1;
                 if (val < 1) val = 1;
+                if (val > 999999) val = 999999;
 
                 if (kasirCart[idx]) {
                     if (kasirCart[idx].jenis === 'Keluar' && val > kasirCart[idx].max_stok) {
-                        showToast("warning", "Stok Melebihi Batas", `Stok ${kasirCart[idx].nama_ikan} hanya ${kasirCart[idx].max_stok} ekor.`);
+                        showToast("warning", "Stok Melebihi Batas", `Stok ${kasirCart[idx].nama_ikan} hanya ${kasirCart[idx].max_stok} ${kasirCart[idx].satuan || 'Item'}.`);
                         val = kasirCart[idx].max_stok;
                     }
                     kasirCart[idx].jumlah = val;
@@ -855,8 +883,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const inputKet = e.target.closest(".input-cart-keterangan");
             if (inputKet) {
                 const idx = parseInt(inputKet.getAttribute("data-index"));
+                if (inputKet.value.length > 20) inputKet.value = inputKet.value.substring(0, 20);
                 if (kasirCart[idx]) {
-                    kasirCart[idx].keterangan = inputKet.value.trim();
+                    kasirCart[idx].keterangan = inputKet.value.trim().substring(0, 20);
                 }
             }
         });
@@ -1167,7 +1196,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnSaveNote = document.getElementById("btnSaveCalNote");
     if (btnSaveNote) {
         btnSaveNote.addEventListener("click", function () {
-            const noteContent = document.getElementById("calNoteInput").value.trim();
+            const noteContent = document.getElementById("calNoteInput").value.trim().substring(0, 500);
 
             const formData = new FormData();
             formData.append("tanggal", selectedDateStr);

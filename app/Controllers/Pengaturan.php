@@ -22,9 +22,10 @@ class Pengaturan extends BaseController
     public function update()
     {
         $model = new PengaturanModel();
-        $namaToko   = trim($this->request->getPost('nama_toko'));
-        $subTitle   = trim($this->request->getPost('sub_title'));
-        $stokKritis = trim($this->request->getPost('stok_kritis'));
+        $namaToko   = substr(trim($this->request->getPost('nama_toko') ?? ''), 0, 50);
+        $subTitle   = substr(trim($this->request->getPost('sub_title') ?? ''), 0, 50);
+        $stokRaw    = trim($this->request->getPost('stok_kritis') ?? '');
+        $stokKritis = $stokRaw === '' ? null : min(max((int) $stokRaw, 1), 999);
 
         if (!empty($namaToko)) {
             $model->setSetting('nama_toko', $namaToko);

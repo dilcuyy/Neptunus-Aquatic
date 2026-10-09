@@ -10,7 +10,7 @@
                     </div>
                     <div>
                         <div class="d-flex align-items-center gap-2">
-                            <h5 class="fw-bold mb-0 text-dark fs-6" id="modalKasirLabel" style="letter-spacing: -0.01em;">Kasir & POS Ikan Hias</h5>
+                            <h5 class="fw-bold mb-0 text-dark fs-6" id="modalKasirLabel" style="letter-spacing: -0.01em;">Kasir & POS</h5>
                         </div>
                         <div class="d-flex align-items-center gap-2 mt-0.5">
                             <span class="kasir-live-pill">
@@ -43,7 +43,7 @@
                                 <!-- Search Input Box Modern -->
                                 <div class="kasir-search-box">
                                     <i class="pe-7s-search kasir-search-prefix"></i>
-                                    <input type="text" id="kasirSearchCatalog" class="form-control" placeholder="Cari nama / kategori ikan..." autocomplete="off">
+                                    <input type="text" id="kasirSearchCatalog" class="form-control" placeholder="Cari nama / kategori..." autocomplete="off" maxlength="50">
                                     <button class="kasir-search-clear d-none" type="button" id="btnClearCatalogSearch" title="Clear">
                                         <i class="pe-7s-close-circle"></i>
                                     </button>
@@ -62,10 +62,10 @@
                         <!-- Catalog Title & Header Row -->
                         <div class="d-flex align-items-center justify-content-between mb-2 px-1 flex-shrink-0">
                             <div class="d-flex align-items-center gap-2">
-                                <span class="fw-bold text-dark fs-7">Katalog Ikan Hias</span>
+                                <span class="fw-bold text-dark fs-7">Katalog Produk</span>
                                 <span class="badge bg-white text-muted border rounded-pill px-2 py-1" style="font-size: 0.6875rem;" id="kasirCatalogCount">(0 Item)</span>
                             </div>
-                            <span class="text-muted" style="font-size: 0.6875rem;">Klik kartu ikan untuk menambah ke keranjang</span>
+                                                            <span class="text-muted" style="font-size: 0.6875rem;">Klik kartu produk untuk menambah ke keranjang</span>
                         </div>
 
                         <!-- Product Grid Container (Scrollable) -->
@@ -136,7 +136,7 @@
                                     </div>
                                     <div class="d-flex justify-content-between pb-2 mb-2" style="font-size: 0.75rem; color: #64748b; border-bottom: 1px dashed #e2e8f0;">
                                         <span>Total Kuantitas</span>
-                                        <span class="fw-bold text-dark" id="kasirSummaryTotalQty">0 Ekor</span>
+                                        <span class="fw-bold text-dark" id="kasirSummaryTotalQty">0 Item</span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="fw-bold text-dark fs-7">Subtotal Akhir</span>

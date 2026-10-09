@@ -39,9 +39,9 @@ class Profil extends BaseController
         $akunModel = new AkunModel();
         $idAkun    = $this->request->getPost('id_akun') ?: 1;
 
-        $namaLengkap = trim($this->request->getPost('nama_lengkap'));
-        $username    = trim($this->request->getPost('username') ?: 'admin');
-        $nomorHp     = trim($this->request->getPost('nomor_hp'));
+        $namaLengkap = substr(trim($this->request->getPost('nama_lengkap') ?? ''), 0, 100);
+        $username    = substr(trim($this->request->getPost('username') ?: 'admin'), 0, 50);
+        $nomorHp     = substr(trim($this->request->getPost('nomor_hp') ?? ''), 0, 20);
 
         if (empty($namaLengkap)) {
             return $this->response->setJSON([

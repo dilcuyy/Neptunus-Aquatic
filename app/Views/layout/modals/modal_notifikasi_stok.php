@@ -9,7 +9,7 @@
                     </div>
                     <div>
                         <h5 class="modal-title font-weight-bold text-dark fs-6 mb-0" id="modalNotifikasiStokLabel">Peringatan Stok Menipis & Kritis</h5>
-                        <small class="text-muted fs-8">Menampilkan daftar inventaris ikan hias dengan jumlah stok di bawah batas kritis</small>
+                        <small class="text-muted fs-8">Menampilkan daftar inventaris dengan jumlah stok di bawah batas kritis</small>
                     </div>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -26,7 +26,7 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead class="bg-light sticky-top" style="z-index: 2;">
                             <tr class="fs-8 text-uppercase text-secondary fw-bold">
-                                <th class="ps-3 py-2.5">Produk Ikan</th>
+                                <th class="ps-3 py-2.5">Produk</th>
                                 <th class="py-2.5">Kategori</th>
                                 <th class="py-2.5 text-center">Harga Beli</th>
                                 <th class="py-2.5 text-center">Sisa Stok</th>

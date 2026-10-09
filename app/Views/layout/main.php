@@ -556,8 +556,8 @@
         /* Clean Native Admin Page Header */
         .app-page-title {
             background: transparent !important;
-            padding: 0 0 1.25rem 0 !important;
-            margin: 0 0 1.5rem 0 !important;
+            padding: 0 0 .8rem 0 !important;
+            margin: 0 0 1rem 0 !important;
             border: none !important;
             border-bottom: 1px solid #e2e8f0 !important;
             box-shadow: none !important;
@@ -576,6 +576,9 @@
             color: #64748b !important;
             font-weight: 400 !important;
             line-height: 1.4;
+        }
+        .app-main__inner {
+            padding-top: .5rem !important;
         }
     </style>
 </head>

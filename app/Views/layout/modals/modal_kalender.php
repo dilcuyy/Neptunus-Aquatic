@@ -55,7 +55,7 @@
                             </div>
                             <div class="mb-2">
                                 <label class="modal-label text-muted" style="font-size: 0.75rem;" id="selectedDateText">Selasa, 23 September 2026</label>
-                                <textarea class="form-control modal-input" id="calNoteInput" rows="6" placeholder="Ketik catatan agenda di sini..."></textarea>
+                                <textarea class="form-control modal-input" id="calNoteInput" rows="6" placeholder="Ketik catatan agenda di sini..." maxlength="500"></textarea>
                             </div>
                         </div>
 

@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class KategoriModel extends Model
 {
-    protected $table            = 'kategori_ikan';
+    protected $table            = 'kategori';
     protected $primaryKey       = 'id_kategori';
-    protected $allowedFields    = ['nama_kategori', 'sifat', 'tingkat_perawatan'];
+    protected $allowedFields    = ['nama_kategori', 'satuan'];
     protected $returnType       = 'array';
 }

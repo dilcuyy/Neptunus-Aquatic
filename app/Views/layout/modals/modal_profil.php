@@ -41,15 +41,15 @@ if (!empty($modFoto) && file_exists(FCPATH . 'uploads/profile/' . $modFoto)) {
                     <div class="row g-2.5">
                         <div class="col-12">
                             <label class="modal-label" for="profilNamaLengkap">Nama Lengkap <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control modal-input" name="nama_lengkap" id="profilNamaLengkap" value="<?= esc($modUser['nama_lengkap'] ?? '') ?>" placeholder="Nama lengkap admin" required>
+                            <input type="text" class="form-control modal-input" name="nama_lengkap" id="profilNamaLengkap" value="<?= esc($modUser['nama_lengkap'] ?? '') ?>" placeholder="Nama lengkap admin" required maxlength="100" autocomplete="off">
                         </div>
                         <div class="col-md-6">
                             <label class="modal-label" for="profilUsername">Username <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control modal-input" name="username" id="profilUsername" value="<?= esc($modUser['username'] ?? '') ?>" placeholder="Username login" required>
+                            <input type="text" class="form-control modal-input" name="username" id="profilUsername" value="<?= esc($modUser['username'] ?? '') ?>" placeholder="Username login" required maxlength="50" autocomplete="off">
                         </div>
                         <div class="col-md-6">
                             <label class="modal-label" for="profilNomorHp">Nomor WhatsApp</label>
-                            <input type="text" class="form-control modal-input" name="nomor_hp" id="profilNomorHp" value="<?= esc($modUser['nomor_hp'] ?? '') ?>" placeholder="08xxxxxxxxxx">
+                            <input type="text" class="form-control modal-input" name="nomor_hp" id="profilNomorHp" value="<?= esc($modUser['nomor_hp'] ?? '') ?>" placeholder="08xxxxxxxxxx" maxlength="20" autocomplete="off" inputmode="tel">
                         </div>
                     </div>
                 </div>

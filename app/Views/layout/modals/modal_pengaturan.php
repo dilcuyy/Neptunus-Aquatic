@@ -27,17 +27,17 @@ $modStokKritis = $modPengaturanModel->getSetting('stok_kritis', '5');
                     <div class="row g-2.5">
                         <div class="col-12">
                             <label class="modal-label" for="settingNamaToko">Nama Toko / Enterprise</label>
-                            <input type="text" class="form-control modal-input" name="nama_toko" id="settingNamaToko" value="<?= esc($modNamaToko) ?>" placeholder="Contoh: Neptunus Aquatic">
+                            <input type="text" class="form-control modal-input" name="nama_toko" id="settingNamaToko" value="<?= esc($modNamaToko) ?>" placeholder="Contoh: Neptunus Aquatic" maxlength="50" autocomplete="off">
                         </div>
                         <div class="col-12">
                             <label class="modal-label" for="settingSubTitle">Sub-judul / Jabatan Header</label>
-                            <input type="text" class="form-control modal-input" name="sub_title" id="settingSubTitle" value="<?= esc($modSubTitle) ?>" placeholder="Contoh: Manager Operasional">
+                            <input type="text" class="form-control modal-input" name="sub_title" id="settingSubTitle" value="<?= esc($modSubTitle) ?>" placeholder="Contoh: Manager Operasional" maxlength="50" autocomplete="off">
                         </div>
                         <div class="col-12">
-                            <label class="modal-label" for="settingStokKritis">Batas Stok Kritis (Ekor)</label>
+                            <label class="modal-label" for="settingStokKritis">Batas Stok Kritis (Unit)</label>
                             <div class="modal-input-group">
-                                <input type="number" class="form-control modal-input" name="stok_kritis" id="settingStokKritis" value="<?= esc($modStokKritis) ?>" min="1" placeholder="5">
-                                <span class="input-group-addon">Ekor</span>
+                                <input type="number" class="form-control modal-input" name="stok_kritis" id="settingStokKritis" value="<?= esc($modStokKritis) ?>" min="1" max="999" placeholder="5">
+                                                            <span class="input-group-addon">Unit</span>
                             </div>
                             <div class="small text-muted mt-1.5" style="font-size: 0.75rem;">Item dengan sisa stok di bawah angka ini akan otomatis masuk ke daftar notifikasi restok.</div>
                         </div>

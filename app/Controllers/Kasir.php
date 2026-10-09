@@ -17,6 +17,7 @@ class Kasir extends BaseController
                 'id_ikan'       => $fish['id_ikan'],
                 'nama_ikan'     => $fish['nama_ikan'],
                 'nama_kategori' => $fish['nama_kategori'] ?? 'Umum',
+                'satuan'        => $fish['satuan'] ?? 'Ekor',
                 'harga_beli'    => (float) $fish['harga_beli'],
                 'harga_jual'    => (float) $fish['harga_jual'],
                 'stok'          => (int) $fish['stok'],
@@ -47,9 +48,9 @@ class Kasir extends BaseController
                 $items[] = [
                     'id_ikan'      => $idIkan,
                     'jenis'        => trim($this->request->getPost('jenis')),
-                    'jumlah'       => (int) $this->request->getPost('jumlah'),
-                    'harga_satuan' => (float) $this->request->getPost('harga_satuan'),
-                    'keterangan'   => trim($this->request->getPost('keterangan'))
+                    'jumlah'       => min(max((int) $this->request->getPost('jumlah'), 1), 999999),
+                    'harga_satuan' => min(max((float) preg_replace('/\D/', '', (string) $this->request->getPost('harga_satuan')), 0), 999999999),
+                    'keterangan'   => substr(trim($this->request->getPost('keterangan')), 0, 20)
                 ];
             }
         }
@@ -64,8 +65,9 @@ class Kasir extends BaseController
         // 1. Validation & Stock Check
         foreach ($items as $idx => $item) {
             $idIkan = (int) ($item['id_ikan'] ?? 0);
-            $jumlah = (int) ($item['jumlah'] ?? 0);
+            $jumlah = min(max((int) ($item['jumlah'] ?? 0), 0), 999999);
             $jenis  = trim($item['jenis'] ?? 'Keluar');
+            $items[$idx]['jumlah'] = $jumlah;
 
             if ($idIkan <= 0 || $jumlah <= 0) {
                 return $this->response->setJSON([
@@ -74,7 +76,7 @@ class Kasir extends BaseController
                 ]);
             }
 
-            $fish = $ikanModel->find($idIkan);
+            $fish = $ikanModel->getIkanWithKategori($idIkan);
             if (!$fish) {
                 return $this->response->setJSON([
                     'status'  => 'error',
@@ -83,9 +85,10 @@ class Kasir extends BaseController
             }
 
             if ($jenis === 'Keluar' && $jumlah > (int)$fish['stok']) {
+                $satuanErr = $fish['satuan'] ?? 'Ekor';
                 return $this->response->setJSON([
                     'status'  => 'error',
-                    'message' => 'Stok "' . $fish['nama_ikan'] . '" tidak mencukupi! Permintaan: ' . $jumlah . ' Ekor, Sisa stok: ' . $fish['stok'] . ' Ekor.'
+                    'message' => 'Stok "' . $fish['nama_ikan'] . '" tidak mencukupi! Permintaan: ' . $jumlah . ' ' . $satuanErr . ', Sisa stok: ' . $fish['stok'] . ' ' . $satuanErr . '.'
                 ]);
             }
         }
@@ -98,9 +101,9 @@ class Kasir extends BaseController
         foreach ($items as $item) {
             $idIkan      = (int) $item['id_ikan'];
             $jenis        = trim($item['jenis']);
-            $jumlah       = (int) $item['jumlah'];
-            $hargaSatuan  = (float) $item['harga_satuan'];
-            $keterangan   = trim($item['keterangan'] ?? '');
+            $jumlah       = min(max((int) $item['jumlah'], 1), 999999);
+            $hargaSatuan  = min(max((float) preg_replace('/\D/', '', (string) ($item['harga_satuan'] ?? 0)), 0), 999999999);
+            $keterangan   = substr(trim($item['keterangan'] ?? ''), 0, 20);
 
             $fish = $ikanModel->find($idIkan);
             $stokSekarang = (int) $fish['stok'];

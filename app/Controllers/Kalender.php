@@ -25,8 +25,8 @@ class Kalender extends BaseController
     public function saveNote()
     {
         $model   = new CatatanKalenderModel();
-        $tanggal = trim($this->request->getPost('tanggal'));
-        $catatan = trim($this->request->getPost('catatan'));
+        $tanggal = substr(trim($this->request->getPost('tanggal') ?? ''), 0, 10);
+        $catatan = substr(trim($this->request->getPost('catatan') ?? ''), 0, 500);
 
         if (empty($tanggal)) {
             return $this->response->setJSON([
@@ -70,7 +70,7 @@ class Kalender extends BaseController
     public function deleteNote()
     {
         $model   = new CatatanKalenderModel();
-        $tanggal = trim($this->request->getPost('tanggal'));
+        $tanggal = substr(trim($this->request->getPost('tanggal') ?? ''), 0, 10);
 
         if (!empty($tanggal)) {
             $existing = $model->where('tanggal', $tanggal)->first();

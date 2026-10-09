@@ -233,6 +233,38 @@
             background: #0369a1;
             transform: scale(1.05);
         }
+        .foto-picker-clean {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            background: #f8fafc !important;
+            border: 1px dashed #cbd5e1 !important;
+            border-radius: 10px !important;
+            padding: 8px 12px !important;
+            margin-bottom: 12px !important;
+        }
+        .modal-avatar-preview-sm {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            flex-shrink: 0;
+        }
+        .foto-picker-clean .modal-avatar-btn {
+            width: 20px;
+            height: 20px;
+            font-size: 0.65rem;
+            right: -2px;
+            bottom: -2px;
+        }
+        .foto-picker-hint {
+            font-size: 0.75rem !important;
+            color: #64748b !important;
+            line-height: 1.35;
+            margin: 0 !important;
+        }
 
         /* Modern Format Radio Selector Pills */
         .format-pill-group {

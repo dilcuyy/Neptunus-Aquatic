@@ -9,11 +9,11 @@ class Backup extends BaseController
 {
     public function export()
     {
-        $target   = $this->request->getGet('target') ?? 'semua';
-        $tglAwal  = $this->request->getGet('tgl_awal');
-        $tglAkhir = $this->request->getGet('tgl_akhir');
-        $jenis    = $this->request->getGet('jenis');
-        $format   = strtolower($this->request->getGet('format') ?? 'json');
+        $target   = substr(trim($this->request->getGet('target') ?? 'semua'), 0, 10);
+        $tglAwal  = substr(trim($this->request->getGet('tgl_awal') ?? ''), 0, 10);
+        $tglAkhir = substr(trim($this->request->getGet('tgl_akhir') ?? ''), 0, 10);
+        $jenis    = substr(trim($this->request->getGet('jenis') ?? ''), 0, 10);
+        $format   = substr(strtolower($this->request->getGet('format') ?? 'json'), 0, 10);
 
         $ikanModel    = new IkanModel();
         $riwayatModel = new RiwayatStokModel();

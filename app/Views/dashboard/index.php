@@ -84,7 +84,7 @@
     <div class="col-sm-6 col-xl-3">
         <div class="stat-card">
             <div>
-                <div class="stat-label">Total Stok Ikan</div>
+                <div class="stat-label">Total Stok</div>
                 <div class="stat-value"><?= number_format($stats['total_stok']) ?></div>
                 <div class="stat-subtext">Seluruh kategori</div>
             </div>
@@ -96,7 +96,7 @@
     <div class="col-sm-6 col-xl-3">
         <div class="stat-card">
             <div>
-                <div class="stat-label">Ikan Masuk (IN)</div>
+                <div class="stat-label">Stok Masuk (IN)</div>
                 <div class="stat-value text-success">+<?= number_format($stats['ikan_masuk']) ?></div>
                 <div class="stat-subtext">Akumulasi mutasi masuk</div>
             </div>
@@ -108,7 +108,7 @@
     <div class="col-sm-6 col-xl-3">
         <div class="stat-card">
             <div>
-                <div class="stat-label">Ikan Keluar (OUT)</div>
+                <div class="stat-label">Stok Keluar (OUT)</div>
                 <div class="stat-value text-danger">-<?= number_format($stats['ikan_keluar']) ?></div>
                 <div class="stat-subtext">Akumulasi mutasi keluar</div>
             </div>
@@ -120,7 +120,7 @@
     <div class="col-sm-6 col-xl-3">
         <div class="stat-card">
             <div>
-                <div class="stat-label">Jenis Ikan</div>
+                <div class="stat-label">Jenis Item</div>
                 <div class="stat-value text-primary"><?= number_format($stats['total_jenis']) ?></div>
                 <div class="stat-subtext">Katalog aktif</div>
             </div>
@@ -139,7 +139,7 @@
             <div class="chart-card-header">
                 <div>
                     <h2 class="chart-card-title">Tren Mutasi Stok</h2>
-                    <p class="chart-card-desc">Perbandingan volume ikan masuk (IN) vs ikan keluar (OUT)</p>
+                    <p class="chart-card-desc">Perbandingan volume stok masuk (IN) vs stok keluar (OUT)</p>
                 </div>
             </div>
             <div class="chart-card-body">
@@ -156,7 +156,7 @@
             <div class="chart-card-header">
                 <div>
                     <h2 class="chart-card-title">Proporsi Kategori</h2>
-                    <p class="chart-card-desc">Komposisi stok berdasarkan kategori ikan</p>
+                    <p class="chart-card-desc">Komposisi stok berdasarkan kategori</p>
                 </div>
             </div>
             <div class="chart-card-body">
@@ -176,7 +176,7 @@
             <div class="chart-card-header">
                 <div>
                     <h2 class="chart-card-title">Top 5 Stok Terbanyak</h2>
-                    <p class="chart-card-desc">Katalog ikan dengan ketersediaan tertinggi</p>
+                    <p class="chart-card-desc">Katalog item dengan ketersediaan tertinggi</p>
                 </div>
             </div>
             <div class="chart-card-body">
@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 tooltip: {
                     callbacks: {
                         label: function (ctx) {
-                            return ' ' + ctx.raw.toLocaleString() + ' ekor';
+                            return ' ' + ctx.raw.toLocaleString();
                         }
                     },
                     padding: 10,

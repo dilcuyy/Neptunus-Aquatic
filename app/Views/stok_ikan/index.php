@@ -33,15 +33,17 @@ document.addEventListener("DOMContentLoaded", function() {
     color: #1e293b !important;
     border-color: #cbd5e1 !important;
 }
+.cell-truncate{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cell-truncate-sm{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
 </style>
 <div class="row">
     <div class="col-md-12">
         <div class="main-card mb-3 card">
             <div class="card-header">
-                Daftar Inventaris Stok Ikan Hias
+                Daftar Inventaris Stok
                 <div class="btn-actions-pane-right">
                     <button class="btn btn-success btn-sm btn-shadow" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                        Tambah Data Ikan
+                        Tambah Data Stok
                     </button>
                 </div>
             </div>
@@ -51,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         <thead class="table-light fs-7">
                             <tr>
                                 <th class="text-center text-nowrap" style="width: 60px;">ID</th>
-                                <th style="min-width: 200px;">Nama Ikan</th>
+                                <th style="min-width: 200px;">Nama Item</th>
                                 <th class="text-center text-nowrap" style="width: 180px;">Kategori</th>
                                 <th class="text-end text-nowrap" style="width: 125px;">Harga Beli</th>
                                 <th class="text-end text-nowrap" style="width: 125px;">Harga Jual</th>
@@ -63,20 +65,26 @@ document.addEventListener("DOMContentLoaded", function() {
                         <tbody>
                             <?php if (empty($fish_list)): ?>
                             <tr>
-                                <td colspan="8" class="text-center text-muted py-4">Tidak ada data ikan ditemukan.</td>
+                                <td colspan="8" class="text-center text-muted py-4">Tidak ada data stok ditemukan.</td>
                             </tr>
                             <?php else: ?>
                             <?php foreach ($fish_list as $fish): ?>
                             <tr id="row-stok-<?= $fish['id_ikan'] ?>">
                                 <td class="text-center text-nowrap fw-semibold text-secondary">#<?= $fish['id_ikan'] ?></td>
                                 <td>
-                                    <div class="fw-bold"><?= esc($fish['nama_ikan']) ?></div>
-                                    <small class="text-muted"><?= esc($fish['deskripsi'] ?? '-') ?></small>
+                                    <?php $fotoFile = !empty($fish['foto']) ? $fish['foto'] : (!empty($fish['gambar']) ? $fish['gambar'] : 'default.jpg'); ?>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="<?= base_url('uploads/ikan/' . $fotoFile) ?>" alt="" class="rounded border flex-shrink-0" style="width:38px;height:38px;object-fit:cover;background:#f8fafc;" loading="lazy" onerror="this.src='<?= base_url('uploads/ikan/default.jpg') ?>'">
+                                        <div class="min-w-0">
+                                            <div class="fw-bold cell-truncate" title="<?= esc($fish['nama_ikan']) ?>"><?= esc($fish['nama_ikan']) ?></div>
+                                            <small class="text-muted cell-truncate-sm" title="<?= esc($fish['deskripsi'] ?? '-') ?>"><?= esc($fish['deskripsi'] ?? '-') ?></small>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="text-center text-nowrap"><span class="badge bg-info"><?= esc($fish['nama_kategori'] ?? 'Umum') ?></span></td>
                                 <td class="text-end text-nowrap">Rp <?= number_format($fish['harga_beli'], 0, ',', '.') ?></td>
                                 <td class="text-end text-nowrap fw-bold text-success">Rp <?= number_format($fish['harga_jual'], 0, ',', '.') ?></td>
-                                <td class="text-end text-nowrap fw-bold text-primary"><?= number_format($fish['stok']) ?> Ekor</td>
+                                <td class="text-end text-nowrap fw-bold text-primary"><?= number_format($fish['stok']) ?> <?= esc($fish['satuan'] ?? 'Ekor') ?></td>
                                 <td class="text-center text-nowrap">
                                     <span class="badge <?= $fish['badge'] ?>"><?= $fish['status_stok'] ?></span>
                                 </td>
@@ -101,8 +109,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-between align-items-center">
-                <span>Total Jenis Ikan: <strong><?= count($fish_list) ?></strong> jenis</span>
-                <small class="text-muted">Neptunus Aquatic System</small>
+                <span>Total Jenis Stok: <strong><?= count($fish_list) ?></strong> jenis</span>
+                <small class="text-muted">Kritis ≤ <?= (int) ($batas_kritis ?? 5) ?> • Habis = 0 • Neptunus Aquatic System</small>
             </div>
         </div>
     </div>
@@ -140,8 +148,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (typeof showConfirmModal === 'function') {
                 showConfirmModal(
-                    "Konfirmasi Hapus Data Ikan",
-                    `Apakah Anda yakin ingin menghapus data ikan <strong>${nama}</strong>?`,
+                    "Konfirmasi Hapus Data Stok",
+                    `Apakah Anda yakin ingin menghapus data stok <strong>${nama}</strong>?`,
                     function () {
                         window.location.href = "<?= base_url('stok-ikan/hapus') ?>/" + id;
                     }
@@ -149,8 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 const judulEl = document.getElementById("konfirmasiJudul");
                 const textEl = document.getElementById("konfirmasiText");
-                if (judulEl) judulEl.textContent = "Konfirmasi Hapus Data Ikan";
-                if (textEl) textEl.innerHTML = `Apakah Anda yakin ingin menghapus data ikan <strong>${nama}</strong>?`;
+                if (judulEl) judulEl.textContent = "Konfirmasi Hapus Data Stok";
+                if (textEl) textEl.innerHTML = `Apakah Anda yakin ingin menghapus data stok <strong>${nama}</strong>?`;
                 
                 window.confirmActionCallback = function () {
                     window.location.href = "<?= base_url('stok-ikan/hapus') ?>/" + id;
@@ -169,137 +177,175 @@ document.addEventListener("DOMContentLoaded", function () {
 <?= $this->section('modals') ?>
 <!-- Modal Tambah Kategori Baru -->
 <div class="modal fade" id="modalTambahKategori" tabindex="-1" aria-labelledby="modalTambahKategoriLabel" aria-hidden="true" style="z-index: 1085;">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header">
-                <h5 class="modal-title font-weight-bold" id="modalTambahKategoriLabel">Tambah Kategori Baru</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="<?= base_url('stok-ikan/simpan-kategori') ?>" method="post">
-                <div class="modal-body">
-                    <div class="mb-2">
-                        <label class="form-label fw-bold fs-7">Nama Kategori <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control form-control-sm fs-7" name="nama_kategori" placeholder="Contoh: Guppy / Cichlid" required autocomplete="off">
+    <div class="modal-dialog modal-dialog-centered modal-sm modal-dialog-modern">
+        <div class="modal-content modal-content-modern">
+            <div class="modal-header-modern">
+                <div class="d-flex align-items-center gap-2.5">
+                    <div class="modal-header-icon"><i class="pe-7s-plus"></i></div>
+                    <div>
+                        <h5 class="modal-title-text" id="modalTambahKategoriLabel">Tambah Kategori</h5>
+                        <div class="modal-subtitle-text">Ekor untuk ikan, Pcs untuk barang</div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary btn-sm">Simpan Kategori</button>
+                <button type="button" class="modal-btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="pe-7s-close"></i></button>
+            </div>
+            <form action="<?= base_url('stok-ikan/simpan-kategori') ?>" method="post">
+                <div class="modal-body-modern">
+                    <div class="mb-2">
+                        <label class="modal-label">Nama Kategori <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control modal-input" name="nama_kategori" placeholder="Contoh: Pakan / Aksesori" required autocomplete="off" maxlength="50">
+                    </div>
+                    <div>
+                        <label class="modal-label">Satuan <span class="text-danger">*</span></label>
+                        <select class="form-select modal-input" name="satuan" required>
+                            <option value="Ekor">Ekor (ikan hidup)</option>
+                            <option value="Pcs">Pcs (barang / pakan)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer-modern">
+                    <button type="button" class="modal-btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="modal-btn-primary"><i class="pe-7s-check"></i><span>Simpan</span></button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Modal Tambah Ikan -->
+<!-- Modal Tambah Stok -->
 <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title text-white" id="modalTambahLabel">Tambah Data Ikan Hias Baru</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-modern modal-dialog-modern-lg">
+        <div class="modal-content modal-content-modern">
+            <div class="modal-header-modern">
+                <div class="d-flex align-items-center gap-2.5">
+                    <div class="modal-header-icon"><i class="pe-7s-plus"></i></div>
+                    <div>
+                        <h5 class="modal-title-text" id="modalTambahLabel">Tambah Data Stok</h5>
+                        <div class="modal-subtitle-text">Ikan, pakan, atau barang toko</div>
+                    </div>
+                </div>
+                <button type="button" class="modal-btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="pe-7s-close"></i></button>
             </div>
-            <form action="<?= base_url('stok-ikan/simpan') ?>" method="post">
-                <div class="modal-body">
-                    <div class="row g-3">
+            <form action="<?= base_url('stok-ikan/simpan') ?>" method="post" enctype="multipart/form-data">
+                <div class="modal-body-modern">
+                    <div class="foto-picker-clean">
+                        <div class="position-relative d-inline-block flex-shrink-0">
+                            <img id="fotoPreviewTambah" src="<?= base_url('uploads/ikan/default.jpg') ?>" class="modal-avatar-preview-sm" alt="Foto item">
+                            <label for="fotoInputTambah" class="modal-avatar-btn" title="Pilih foto"><i class="pe-7s-camera"></i></label>
+                            <input type="file" id="fotoInputTambah" name="foto" class="d-none" accept="image/*">
+                        </div>
+                        <p class="foto-picker-hint">Foto opsional. JPG/PNG/WebP maks 2MB.</p>
+                    </div>
+                    <div class="row g-2">
                         <div class="col-md-6">
-                            <label class="form-label fw-bold">Nama Ikan <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="nama_ikan" placeholder="Contoh: Ikan Discus Red Turquoise" required>
+                            <label class="modal-label">Nama Item <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control modal-input" name="nama_ikan" placeholder="Contoh: Pakan Pelet 1kg" required maxlength="100" autocomplete="off">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-bold">Kategori Ikan <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <select class="form-select" name="id_kategori" required>
+                            <label class="modal-label">Kategori <span class="text-danger">*</span></label>
+                            <div class="modal-input-group">
+                                <select class="form-select modal-input" name="id_kategori" required>
                                     <option value="">-- Pilih Kategori --</option>
                                     <?php foreach ($kategori_list as $kat): ?>
-                                    <option value="<?= $kat['id_kategori'] ?>"><?= esc($kat['nama_kategori']) ?></option>
+                                    <option value="<?= $kat['id_kategori'] ?>"><?= esc($kat['nama_kategori']) ?> (<?= esc($kat['satuan'] ?? 'Ekor') ?>)</option>
                                     <?php endforeach; ?>
                                 </select>
-                                <button type="button" class="btn btn-kategori-plus" data-bs-toggle="modal" data-bs-target="#modalTambahKategori" title="Tambah Kategori Baru">
-                                    +
-                                </button>
+                                <button type="button" class="input-group-addon border-0" data-bs-toggle="modal" data-bs-target="#modalTambahKategori" title="Tambah Kategori Baru" style="cursor:pointer;">+</button>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Harga Beli (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="harga_beli" placeholder="0" required>
+                            <label class="modal-label">Harga Beli (Rp) <span class="text-danger">*</span></label>
+                            <input type="text" inputmode="numeric" class="form-control modal-input rupiah-input" name="harga_beli" placeholder="0" required maxlength="11" autocomplete="off">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Harga Jual (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="harga_jual" placeholder="0" required>
+                            <label class="modal-label">Harga Jual (Rp) <span class="text-danger">*</span></label>
+                            <input type="text" inputmode="numeric" class="form-control modal-input rupiah-input" name="harga_jual" placeholder="0" required maxlength="11" autocomplete="off">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Jumlah Stok Initial <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="stok" placeholder="0" required>
+                            <label class="modal-label">Stok Awal <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control modal-input" name="stok" placeholder="0" required min="0" max="999999">
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label fw-bold">Deskripsi Ikan</label>
-                            <textarea class="form-control" name="deskripsi" rows="3" placeholder="Keterangan singkat mengenai sifat, ukuran, atau perawatan ikan..."></textarea>
+                            <label class="modal-label">Deskripsi Item</label>
+                            <textarea class="form-control modal-input" name="deskripsi" rows="2" maxlength="255" placeholder="Spesifikasi singkat, ukuran, atau penggunaan..."></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success">Simpan Ikan Baru</button>
+                <div class="modal-footer-modern">
+                    <button type="button" class="modal-btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="modal-btn-primary"><i class="pe-7s-check"></i><span>Simpan</span></button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Modals Edit Ikan -->
+<!-- Modals Edit Stok -->
 <?php if (!empty($fish_list)): ?>
 <?php foreach ($fish_list as $fish): ?>
 <div class="modal fade" id="modalEdit<?= $fish['id_ikan'] ?>" tabindex="-1" aria-labelledby="modalEditLabel<?= $fish['id_ikan'] ?>" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title text-white" id="modalEditLabel<?= $fish['id_ikan'] ?>">Edit Data Ikan: <?= esc($fish['nama_ikan']) ?></h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-modern modal-dialog-modern-lg">
+        <div class="modal-content modal-content-modern">
+            <div class="modal-header-modern">
+                <div class="d-flex align-items-center gap-2.5">
+                    <div class="modal-header-icon"><i class="pe-7s-pen"></i></div>
+                    <div>
+                        <h5 class="modal-title-text" id="modalEditLabel<?= $fish['id_ikan'] ?>">Edit: <?= esc($fish['nama_ikan']) ?></h5>
+                        <div class="modal-subtitle-text">Stok diubah via Kasir / Restock</div>
+                    </div>
+                </div>
+                <button type="button" class="modal-btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="pe-7s-close"></i></button>
             </div>
-            <form action="<?= base_url('stok-ikan/update/' . $fish['id_ikan']) ?>" method="post">
-                <div class="modal-body">
-                    <div class="row g-3">
+            <?php $fotoEdit = !empty($fish['foto']) ? $fish['foto'] : (!empty($fish['gambar']) ? $fish['gambar'] : 'default.jpg'); ?>
+            <form action="<?= base_url('stok-ikan/update/' . $fish['id_ikan']) ?>" method="post" enctype="multipart/form-data">
+                <div class="modal-body-modern">
+                    <div class="foto-picker-clean">
+                        <div class="position-relative d-inline-block flex-shrink-0">
+                            <img id="fotoPreviewEdit<?= $fish['id_ikan'] ?>" src="<?= base_url('uploads/ikan/' . $fotoEdit) ?>" class="modal-avatar-preview-sm" alt="Foto item" onerror="this.src='<?= base_url('uploads/ikan/default.jpg') ?>'">
+                            <label for="fotoInputEdit<?= $fish['id_ikan'] ?>" class="modal-avatar-btn" title="Ganti foto"><i class="pe-7s-camera"></i></label>
+                            <input type="file" id="fotoInputEdit<?= $fish['id_ikan'] ?>" name="foto" class="d-none foto-input-edit" data-preview="fotoPreviewEdit<?= $fish['id_ikan'] ?>" accept="image/*">
+                        </div>
+                        <p class="foto-picker-hint">Kosongkan jika tidak ganti foto. JPG/PNG/WebP maks 2MB.</p>
+                    </div>
+                    <div class="row g-2">
                         <div class="col-md-6">
-                            <label class="form-label fw-bold">Nama Ikan <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="nama_ikan" value="<?= esc($fish['nama_ikan']) ?>" required>
+                            <label class="modal-label">Nama Item <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control modal-input" name="nama_ikan" value="<?= esc($fish['nama_ikan']) ?>" required maxlength="100" autocomplete="off">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-bold">Kategori Ikan <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <select class="form-select" name="id_kategori" required>
+                            <label class="modal-label">Kategori <span class="text-danger">*</span></label>
+                            <div class="modal-input-group">
+                                <select class="form-select modal-input" name="id_kategori" required>
                                     <?php foreach ($kategori_list as $kat): ?>
                                     <option value="<?= $kat['id_kategori'] ?>" <?= ($kat['id_kategori'] == $fish['id_kategori']) ? 'selected' : '' ?>>
-                                        <?= esc($kat['nama_kategori']) ?>
+                                        <?= esc($kat['nama_kategori']) ?> (<?= esc($kat['satuan'] ?? 'Ekor') ?>)
                                     </option>
                                     <?php endforeach; ?>
                                 </select>
-                                <button type="button" class="btn btn-kategori-plus" data-bs-toggle="modal" data-bs-target="#modalTambahKategori" title="Tambah Kategori Baru">
-                                    +
-                                </button>
+                                <button type="button" class="input-group-addon border-0" data-bs-toggle="modal" data-bs-target="#modalTambahKategori" title="Tambah Kategori Baru" style="cursor:pointer;">+</button>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Harga Beli (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="harga_beli" value="<?= (int) $fish['harga_beli'] ?>" required>
+                            <label class="modal-label">Harga Beli (Rp) <span class="text-danger">*</span></label>
+                            <input type="text" inputmode="numeric" class="form-control modal-input rupiah-input" name="harga_beli" value="<?= number_format((int) $fish['harga_beli'], 0, '.', '.') ?>" required maxlength="11" autocomplete="off">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Harga Jual (Rp) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="harga_jual" value="<?= (int) $fish['harga_jual'] ?>" required>
+                            <label class="modal-label">Harga Jual (Rp) <span class="text-danger">*</span></label>
+                            <input type="text" inputmode="numeric" class="form-control modal-input rupiah-input" name="harga_jual" value="<?= number_format((int) $fish['harga_jual'], 0, '.', '.') ?>" required maxlength="11" autocomplete="off">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Jumlah Stok <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control bg-light text-muted" name="stok" value="<?= (int) $fish['stok'] ?>" readonly title="Jumlah stok disesuaikan melalui Kasir / Restock (IN/OUT)">
+                            <label class="modal-label">Jumlah Stok</label>
+                            <input type="number" class="form-control modal-input bg-light text-muted" name="stok" value="<?= (int) $fish['stok'] ?>" readonly title="Jumlah stok disesuaikan melalui Kasir / Restock (IN/OUT)">
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label fw-bold">Deskripsi Ikan</label>
-                            <textarea class="form-control" name="deskripsi" rows="3"><?= esc($fish['deskripsi'] ?? '') ?></textarea>
+                            <label class="modal-label">Deskripsi Item</label>
+                            <textarea class="form-control modal-input" name="deskripsi" rows="2" maxlength="255"><?= esc($fish['deskripsi'] ?? '') ?></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                <div class="modal-footer-modern">
+                    <button type="button" class="modal-btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="modal-btn-primary"><i class="pe-7s-check"></i><span>Simpan</span></button>
                 </div>
             </form>
         </div>
@@ -307,4 +353,19 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 <?php endforeach; ?>
 <?php endif; ?>
+<script>
+document.addEventListener("change", function (e) {
+    const inp = e.target.closest('input[type="file"][name="foto"]');
+    if (!inp || !inp.files || !inp.files[0]) return;
+    const file = inp.files[0];
+    if (!file.type.startsWith('image/') || file.size > 2 * 1024 * 1024) {
+        if (typeof showToast === 'function') showToast('danger', 'Gagal', 'Foto harus gambar maks 2MB.');
+        inp.value = '';
+        return;
+    }
+    const previewId = inp.id === 'fotoInputTambah' ? 'fotoPreviewTambah' : inp.getAttribute('data-preview');
+    const img = previewId ? document.getElementById(previewId) : null;
+    if (img) img.src = URL.createObjectURL(file);
+});
+</script>
 <?= $this->endSection() ?>
